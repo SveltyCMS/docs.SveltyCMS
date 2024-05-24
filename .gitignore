@@ -1,10 +1,34 @@
 .DS_Store
-node_modules
+
+# sveltekit
 /build
 /.svelte-kit
 /package
-.env
-.env.*
-!.env.example
+package-lock.json
+node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# secrets
+/config/private.ts
+/config/public.ts
+/config/private.backup.ts
+/config/public.backup.ts
+
+# SveltyCMS
+/tmp
+trash/
+mediaFiles/
+collections/
+
+# debug
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# build
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/error-screenshot.png
