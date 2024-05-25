@@ -4,6 +4,12 @@
 	// Your selected Skeleton theme:
 	import '../app.postcss';
 
+	// Paraglide JS
+	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
+	import { i18n } from '$lib/i18n';
+	import LanguageSwitcher from '@src/lib/LanguageSwitcher.svelte';
+	import * as m from '$lib/paraglide/messages.js';
+
 	// Icons from https://icon-sets.iconify.design/
 	import 'iconify-icon';
 
@@ -31,8 +37,8 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	// SEO
-	const SeoTitle = `SveltyCMS - powered with sveltekit`;
-	const SeoDescription = `SveltyCMS - a modern, powerful, and easy-to-use CMS powered by SvelteKit. Manage your content with ease & take advantage of the latest web technologies.`;
+	const SeoTitle = `SveltyCMS Documentation - powered with sveltekit`;
+	const SeoDescription = `SveltyCMS Documentation - a modern, powerful, and easy-to-use CMS powered by SvelteKit. Manage your content with ease & take advantage of the latest web technologies.`;
 </script>
 
 <svelte:head>
@@ -57,35 +63,35 @@
 	<meta property="twitter:domain" content={$page.url.origin} />
 	<meta property="twitter:url" content={$page.url.href} />
 </svelte:head>
+<ParaglideJS {i18n}>
+	<!-- App Shell -->
+	<AppShell>
+		<svelte:fragment slot="header">
+			<!-- App Bar -->
+			<AppBar>
+				<svelte:fragment slot="lead">
+					<a href="/" class="flex justify-center items-center">
+						<img src="/SveltyCMS_Logo.svg" alt="" class="w-10 mr-4" />
+						<strong class="text-xl uppercase"><span class="text-primary-500">Docs</span>.SveltyCMS</strong></a
+					>
+				</svelte:fragment>
 
-<!-- App Shell -->
-<AppShell>
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<a href="/" class="flex justify-center items-center">
-					<img src="/SveltyCMS_Logo.svg" alt="" class="w-10 mr-4" />
-					<strong class="text-xl uppercase">SveltyCMS</strong></a
-				>
-			</svelte:fragment>
+				<svelte:fragment slot="trail">
+					<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://github.com/Rar9/SveltyCMS" target="_blank" rel="noreferrer"
+						><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Github</span>
+					</a>
+					<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="http://sveltycms.com/marketplace"
+						><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">{m.Marketplace()}</span>
+					</a>
 
-			<svelte:fragment slot="trail">
-				<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://docs.sveltycms.com" target="_blank" rel="noreferrer"
-					><iconify-icon icon="carbon:document" width="24"></iconify-icon> <span class="hidden md:block">Documentation</span>
-				</a>
-				<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://github.com/Rar9/SveltyCMS" target="_blank" rel="noreferrer"
-					><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Github</span>
-				</a>
-				<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="/marketplace"
-					><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">Marketplace</span>
-				</a>
+					<LightSwitch />
 
-				<LightSwitch />
-				<!-- <button on:click({autoModeWatcher}) claass="btn-icon variant-ghost-secondary"></button>Darks -->
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<!-- Page Route Content -->
-	<div class="m-2"><slot /></div>
-</AppShell>
+					<LanguageSwitcher />
+				</svelte:fragment>
+			</AppBar>
+		</svelte:fragment>
+
+		<!-- Page Route Content -->
+		<slot />
+	</AppShell>
+</ParaglideJS>
