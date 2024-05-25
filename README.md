@@ -1,38 +1,47 @@
-# create-svelte
+<p style="border: none; margin-bottom:0; padding-bottom: 0;" align="center">
+      <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Rar9/SveltyCMS/blob/main/static/SveltyCMS.png">
+      <img width="200" alt="SveltyCMS logo" src="https://github.com/Rar9/SveltyCMS/blob/main/static/SveltyCMS.png">
+    </picture>
+ </p>
+ 
+ # SveltyCMS Documentation
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This repository contains the documentation for [SveltyCMS](https://github.com/Rar9/SveltyCMS), a modern, powerful, and easy-to-use Headless CMS powered by SvelteKit. 
 
-## Creating a project
+We always appreciate stars and comments to make this a better OpenSource Headless SvelteKit CMS.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Getting Started
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+To get started with SveltyCMS, please visit the [main repository](https://github.com/Rar9/SveltyCMS) for more details.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Contributing
 
-## Developing
+We welcome contributions to the documentation and the main project. Please feel free to submit pull requests or open issues.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## License
 
-```bash
-npm run dev
+This project is licensed under the MIT License.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+# Contributing
 
-## Building
+We welcome all kinds of contributions! Please see our [`CONTRIBUTING.md`](https://github.com/Rar9/SveltyCMS/CONTRIBUTING.md) for details on how to get started with this.
 
-To create a production version of your app:
+## :moneybag: Sponsoring
 
-```bash
-npm run build
-```
+If you find our project useful and would like to support its development, you can become a sponsor! Your sponsorship will help us cover the costs of maintaining the project and allow us to dedicate more time to its development.
 
-You can preview the production build with `npm run preview`.
+There are several ways you can sponsor us:
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- [Become a GitHub sponsor](https://github.com/sponsors/Rar9)
+- [Donate via PayPal](https://www.paypal.com/donate/?hosted_button_id=5VA28AG6MW2H2)
+
+Thank you for your support!
+
+## :clap: Thanks
+
+To all our contributors without this would never have been possible
+
+# :star: Give us a star
+
+If you like what we're doing, give us a `star` and share our `SveltyCMS` project with others
