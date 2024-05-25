@@ -77,8 +77,12 @@
 				</svelte:fragment>
 
 				<svelte:fragment slot="trail">
-					<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://github.com/Rar9/SveltyCMS" target="_blank" rel="noreferrer"
-						><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Github</span>
+					<a
+						class="gap-2 btn btn-sm variant-outline-surface rounded-full"
+						href="https://github.com/Rar9/docs.SveltyCMS"
+						target="_blank"
+						rel="noreferrer"
+						><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Docs Github</span>
 					</a>
 					<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="http://sveltycms.com/marketplace"
 						><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">{m.Marketplace()}</span>
