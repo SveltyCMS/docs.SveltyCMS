@@ -23,8 +23,22 @@
 	};
 </script>
 
-<select on:change={(e) => switchToLanguage(/** @type {any} */ (e).target.value)} class="rounded-full text-token !bg-surface-100 !dark:bg-surface-500">
+<select on:change={(e) => switchToLanguage(/** @type {any} */ (e).target.value)} class="rounded-full text-token bg-surface-100 dark:bg-surface-500">
 	{#each availableLanguageTags as langTag}
 		<option value={langTag} selected={languageTag() === langTag}>{labels[langTag]}</option>
 	{/each}
 </select>
+
+<style>
+	select {
+		padding: 0.5rem;
+		font-size: 0.875rem; /* 14px */
+	}
+	@media (max-width: 640px) {
+		select {
+			width: 3rem; /* Adjust as necessary */
+			padding: 0.25rem;
+			font-size: 0.75rem; /* 12px */
+		}
+	}
+</style>

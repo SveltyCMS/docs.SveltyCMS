@@ -9,7 +9,7 @@
 	import { i18n } from '$lib/i18n';
 	import LanguageSwitcher from '@src/lib/LanguageSwitcher.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-
+	import { onMount } from 'svelte';
 	// Icons from https://icon-sets.iconify.design/
 	import 'iconify-icon';
 
@@ -36,9 +36,27 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	// SEO
-	const SeoTitle = `SveltyCMS Documentation - powered with sveltekit`;
-	const SeoDescription = `SveltyCMS Documentation - a modern, powerful, and easy-to-use CMS powered by SvelteKit. Manage your content with ease & take advantage of the latest web technologies.`;
+	function toggleDarkMode() {
+		if (document.documentElement.classList.contains('dark')) {
+			document.documentElement.classList.remove('dark');
+			localStorage.setItem('theme', 'light');
+		} else {
+			document.documentElement.classList.add('dark');
+			localStorage.setItem('theme', 'dark');
+		}
+	}
+
+	onMount(() => {
+		if (localStorage.getItem('theme') === 'dark') {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	});
+
+	// Default SEO for all pages
+	const SeoTitle = `SveltyCMS Documentation - Get Started and Learn More`;
+	const SeoDescription = `Access the SveltyCMS Documentation to get started and learn more about the features and capabilities of SveltyCMS. Find guides, tutorials, and comprehensive references to help you make the most of your SveltyCMS experience.`;
 </script>
 
 <svelte:head>
@@ -77,20 +95,21 @@
 				</svelte:fragment>
 
 				<svelte:fragment slot="trail">
-					<a
-						class="gap-2 btn btn-sm variant-outline-surface rounded-full"
-						href="https://github.com/Rar9/docs.SveltyCMS"
-						target="_blank"
-						rel="noreferrer"
-						><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Docs Github</span>
-					</a>
-					<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="http://sveltycms.com/marketplace"
-						><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">{m.Marketplace()}</span>
-					</a>
+					<div class="flex justify-center items-center gap-1 md:gap-2">
+						<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://github.com/Rar9/SveltyCMS" target="_blank" rel="noreferrer"
+							><iconify-icon icon="mdi:github" width="24"></iconify-icon> <span class="hidden md:block">Github</span>
+						</a>
+						<a class="gap-2 btn btn-sm variant-outline-surface rounded-full" href="https://sveltycms.com/marketplace"
+							><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">{m.Marketplace()}</span>
+						</a>
 
-					<LightSwitch />
+						<!-- dark mode -->
+						<button class="bton-icon variant-outline flex items-center p-2 rounded-full focus:outline-none" on:click={toggleDarkMode}>
+							<iconify-icon icon="mdi:theme-light-dark" width="24"></iconify-icon>
+						</button>
 
-					<LanguageSwitcher />
+						<LanguageSwitcher />
+					</div>
 				</svelte:fragment>
 			</AppBar>
 		</svelte:fragment>
