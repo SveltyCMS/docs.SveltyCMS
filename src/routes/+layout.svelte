@@ -89,8 +89,11 @@
 			<AppBar>
 				<svelte:fragment slot="lead">
 					<a href="/" class="flex justify-center items-center">
-						<img src="/SveltyCMS_Logo.svg" alt="" class="w-10 mr-4" />
-						<strong class="text-xl uppercase"><span class="text-primary-500">Docs</span>.SveltyCMS</strong></a
+						<img src="/SveltyCMS_Logo.svg" alt="SveltyCMS Logo" class="w-10 mr-4" />
+						<strong class="text-xl uppercase"
+							><p class="text-primary-500">Docs</p>
+							SveltyCMS</strong
+						></a
 					>
 				</svelte:fragment>
 
