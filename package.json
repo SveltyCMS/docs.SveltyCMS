@@ -1,10 +1,10 @@
 {
-	"name": "docs.sveltycms",
-	"description": "Documentation for SveltyCMS - A powerful Headless CMS with sveltekit power",
+	"name": "sveltycms.com",
+	"description": "SveltyCMS - A powerful Headless CMS with sveltekit power",
 	"version": "0.0.1",
 	"scripts": {
 		"---- DEVELOP ----------------------------------------------------------": "",
-		"dev": "vite dev",
+		"dev": "vite dev --open",
 		"devv": "LAUNCH_EDITOR='code' vite --open",
 		"---- BUILD ----------------------------------------------------------": "",
 		"build": "paraglide-js compile --project ./project.inlang && vite build",
@@ -54,14 +54,14 @@
 	],
 	"devDependencies": {
 		"@iconify/svelte": "^4.0.2",
-		"@inlang/paraglide-js": "1.9.1",
+		"@inlang/paraglide-js": "^1.9.1",
 		"@inlang/paraglide-js-adapter-vite": "^1.2.40",
 		"@inlang/paraglide-sveltekit": "0.8.1",
 		"@playwright/test": "^1.44.1",
 		"@skeletonlabs/skeleton": "2.10.0",
 		"@skeletonlabs/tw-plugin": "0.4.0",
-		"@sveltejs/adapter-auto": "^3.2.1",
 		"@sveltejs/adapter-node": "^5.0.1",
+		"@sveltejs/enhanced-img": "^0.2.1",
 		"@sveltejs/kit": "^2.5.10",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
 		"@tailwindcss/forms": "0.5.7",
@@ -89,7 +89,6 @@
 	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "1.6.5",
-		"@inlang/paraglide-sveltekit": "0.8.1",
 		"highlight.js": "11.9.0",
 		"iconify-icon": "^2.1.0"
 	}

@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	// Your selected Skeleton theme:
 	import '../app.postcss';
+
+	// Icons from https://icon-sets.iconify.design/
+	import 'iconify-icon';
 
 	// Paraglide JS
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import { i18n } from '$lib/i18n';
 	import LanguageSwitcher from '@src/lib/LanguageSwitcher.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import { onMount } from 'svelte';
-	// Icons from https://icon-sets.iconify.design/
-	import 'iconify-icon';
 
 	// Skeleton
-	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -47,7 +48,8 @@
 	}
 
 	onMount(() => {
-		if (localStorage.getItem('theme') === 'dark') {
+		const savedTheme = localStorage.getItem('theme');
+		if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 			document.documentElement.classList.add('dark');
 		} else {
 			document.documentElement.classList.remove('dark');
@@ -86,15 +88,12 @@
 	<AppShell>
 		<svelte:fragment slot="header">
 			<!-- App Bar -->
-			<AppBar>
+			<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 				<svelte:fragment slot="lead">
-					<a href="/" class="flex justify-center items-center">
-						<img src="/SveltyCMS_Logo.svg" alt="SveltyCMS Logo" class="w-10 mr-4" />
-						<strong class="text-xl uppercase"
-							><p class="text-primary-500">Docs</p>
-							SveltyCMS</strong
-						></a
-					>
+					<a href="/" class="flex justify-center items-center" aria-label="SveltyCMS Home">
+						<img src="/SveltyCMS_Logo.svg" alt="SveltyCMS Logo" class="w-10 ml-1 mr-2" />
+						<strong class="sm:text-2xl md:text-3xl uppercase relative">Svelty<span class="text-terriary-500 dark:text-primary-500">CMS</span></strong>
+					</a>
 				</svelte:fragment>
 
 				<svelte:fragment slot="trail">
@@ -106,12 +105,16 @@
 							><iconify-icon icon="iconamoon:shopping-bag-duotone" width="24"></iconify-icon> <span class="hidden md:block">{m.Marketplace()}</span>
 						</a>
 
-						<!-- dark mode -->
-						<button class="bton-icon variant-outline flex items-center p-2 rounded-full focus:outline-none" on:click={toggleDarkMode}>
+						<LanguageSwitcher />
+
+						<!-- Dark mode -->
+						<button
+							class="bton-icon variant-outline flex items-center p-2 rounded-full focus:outline-none"
+							on:click={toggleDarkMode}
+							aria-label="Toggle Dark Mode"
+						>
 							<iconify-icon icon="mdi:theme-light-dark" width="24"></iconify-icon>
 						</button>
-
-						<LanguageSwitcher />
 					</div>
 				</svelte:fragment>
 			</AppBar>

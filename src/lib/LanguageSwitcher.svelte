@@ -23,7 +23,13 @@
 	};
 </script>
 
-<select on:change={(e) => switchToLanguage(/** @type {any} */ (e).target.value)} class="rounded-full text-token bg-surface-100 dark:bg-surface-500">
+<label for="language-switcher" class="sr-only">Select Language</label>
+<select
+	id="language-switcher"
+	aria-label="Language Selector"
+	on:change={(e) => switchToLanguage(/** @type {any} */ (e).target.value)}
+	class="rounded-full h-10 w-14 border border-black text-token bg-surface-100 dark:bg-surface-700"
+>
 	{#each availableLanguageTags as langTag}
 		<option value={langTag} selected={languageTag() === langTag}>{labels[langTag]}</option>
 	{/each}
