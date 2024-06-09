@@ -1,4 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-		"Marketplace": "Marktplatz"	
+		"Marketplace": "Marktplatz"	,
+		"error_pagenotfound": "Seite nicht gefunden",
+		"error_wrong": "Es tut uns leid, etwas ist schief gelaufen.",
+		"error_gofrontpage": "Gehen Sie zur Startseite"
 }
