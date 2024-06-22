@@ -8,6 +8,10 @@
 	// Icons from https://icon-sets.iconify.design/
 	import 'iconify-icon';
 
+	// Components
+	import Footer from '$lib/Footer.svelte';
+	import { toggleDarkMode } from '$lib/darkMode';
+
 	// Paraglide JS
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import { i18n } from '$lib/i18n';
@@ -36,16 +40,6 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-
-	function toggleDarkMode() {
-		if (document.documentElement.classList.contains('dark')) {
-			document.documentElement.classList.remove('dark');
-			localStorage.setItem('theme', 'light');
-		} else {
-			document.documentElement.classList.add('dark');
-			localStorage.setItem('theme', 'dark');
-		}
-	}
 
 	onMount(() => {
 		const savedTheme = localStorage.getItem('theme');
@@ -122,5 +116,8 @@
 
 		<!-- Page Route Content -->
 		<slot />
+
+		<!-- Footer -->
+		<Footer />
 	</AppShell>
 </ParaglideJS>
