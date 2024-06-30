@@ -30,7 +30,7 @@
 </script>
 
 <div class="mb-4">
-	<input type="text" placeholder="Search documentation..." bind:value={query} on:input={search} class="input" />
+	<input type="text" placeholder="Search documentation..." bind:value={query} on:input={search} class="input variant-outlined-primary" />
 </div>
 
 {#if docs.length > 0}

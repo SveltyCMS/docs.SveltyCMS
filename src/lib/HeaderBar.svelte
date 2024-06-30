@@ -32,7 +32,7 @@
 				{/if}
 				<a href="/" class="flex justify-center items-center ml-2" aria-label="SveltyCMS Home">
 					<img src="/SveltyCMS_Logo.svg" alt="SveltyCMS Logo" class="w-8 ml-1 mr-2" />
-					<strong class="sm:text-lg md:text-xl uppercase relative">Svelty<span class="text-tertiary-500 dark:text-primary-500">CMS</span></strong>
+					<strong class="sm:text-lg md:text-xl uppercase relative">Svelty<span class="text-primary-500">CMS</span></strong>
 				</a>
 			</div>
 		</svelte:fragment>

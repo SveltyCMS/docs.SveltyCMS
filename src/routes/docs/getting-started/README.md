@@ -1,19 +1,19 @@
 ---
 title: "Getting Started with SveltyCMS"
-description: "A guide to help you set up and start using SveltyCMS."
+description: "A comprehensive guide to setting up and using SveltyCMS, your modern Headless CMS built with SvelteKit."
 icon: "mdi:rocket-launch"
 ---
 
-# Getting Started with SveltyCMS
+# Welcome to SveltyCMS
 
-Welcome to SveltyCMS, a modern, powerful, and easy-to-use Headless CMS powered by SvelteKit. This guide will help you set up and start using SveltyCMS.
+Get ready to unlock the power of a modern, feature-rich, and user-friendly Headless CMS built with SvelteKit! This comprehensive guide will navigate you through setting up and utilizing SveltyCMS for your content management needs.
 
-## Table of Contents
+## Getting Started Table of Contents
 
-1. [Prerequisites](./prerequisites.md)
-2. [Installation](./installation.md)
-3. [Configuration](./configuration.md)
-4. [Running the Application](./running.md)
-5. [Troubleshooting](./troubleshooting.md)
+1. [Prerequisites](./prerequisites.md) - Ensure you have the necessary tools before diving in.
+2. [Installation](./installation.md) - Follow these steps to install SveltyCMS quickly.
+3. [Configuration](./configuration.md) - Set up environment variables and other vital settings for smooth operation.
+4. [Running SveltyCMS](./running.md) - Learn how to run SveltyCMS in both development and production environments.
+5. [Troubleshooting](./troubleshooting.md) - Find solutions to common issues you might encounter.
 
-Follow these steps to get your SveltyCMS instance up and running quickly!
+Let's embark on your SveltyCMS journey!

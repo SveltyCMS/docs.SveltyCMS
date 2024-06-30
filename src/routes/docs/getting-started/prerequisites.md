@@ -1,22 +1,19 @@
 ---
-title: "Prerequisites"
-description: "Before you begin, ensure you have the necessary tools and software installed."
+title: "Prerequisites for SveltyCMS"
+description: "Ensure you have the necessary tools and software installed before beginning with SveltyCMS."
 ---
 
-# Prerequisites
+# Prerequisites for SveltyCMS
 
-Before you begin, ensure you have the following installed:
+Before setting up SveltyCMS, it's essential to ensure you have the following software installed on your system:
 
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [npm](https://www.npmjs.com/) (v6 or higher)
+- **Node.js (version 18 or higher):** https://nodejs.org/en
+- **npm (version 6 or higher):**  Node.js typically includes npm during installation.  If not installed separately, refer to the Node.js installation guide for details.
 
-Verify your installations:
+**Verifying Installation:**
 
-```sh
+Once you've installed Node.js and npm, verify their presence using the following commands in your terminal:
+
+```bash
 node -v
 npm -v
-
-
-Feel free to add more details or prerequisites if necessary. The frontmatter is correctly added for better SEO and structure.
-
-
