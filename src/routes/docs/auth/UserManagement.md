@@ -1,3 +1,8 @@
+---
+title: "User Management"
+description: "Responsible for creating, managing, and removing user accounts, including handling user attributes and ensuring data integrity within the system."
+---
+
 # User Management
 
 ## Overview

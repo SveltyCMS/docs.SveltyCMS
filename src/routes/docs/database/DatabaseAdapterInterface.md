@@ -1,3 +1,8 @@
+---
+title: "Database Adapter Interface Documentation"
+description: "The DatabaseAdapter interface defines essential methods for database operations within SveltyCMS."
+---
+
 # Database Adapter Interface Documentation
 
 ## Overview

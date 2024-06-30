@@ -1,3 +1,8 @@
+---
+title: "MongoDB Adapter Details"
+description: "Detailed documentation for the MongoDBAdapter, which implements the DatabaseAdapter interface specifically for MongoDB."
+---
+
 # MongoDB Adapter Details
 
 ## Introduction

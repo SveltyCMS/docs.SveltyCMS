@@ -1,4 +1,7 @@
 <script lang="ts">
+	// Paraglide JS
+	import * as m from '$lib/paraglide/messages.js';
+
 	const currentYear = new Date().getFullYear();
 </script>
 

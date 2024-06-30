@@ -1,3 +1,8 @@
+---
+title: "Role Management"
+description: "Management and definition of roles within the system, outlining how roles are created, modified, and assigned to users."
+---
+
 # Role Management
 
 ## Overview
@@ -26,4 +31,4 @@ Procedure for deleting roles to ensure that all dependent data is handled correc
 |-------------|-----------|------------------------------------|
 | id          | INT       | Primary key, auto-increments       |
 | name        | VARCHAR   | Unique name of the role            |
-| description |
+| description | TEXT      | Description of the role            |

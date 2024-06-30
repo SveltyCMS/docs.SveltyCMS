@@ -19,6 +19,6 @@
 			<iconify-icon {icon} width={iconSize} class={`mr-1 ${iconColor} sm:mr-2`} />
 		{/if}
 		<!-- Page Title -->
-		{@html name}
+		<div class="text-center">{@html name}</div>
 	</h1>
 </div>

@@ -1,3 +1,8 @@
+---
+title: "Token Management"
+description: "Handles the lifecycle and management of authentication tokens, used for tasks such as password resets and email verification."
+---
+
 # Token Management
 
 ## Overview

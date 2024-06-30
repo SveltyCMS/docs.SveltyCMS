@@ -1,3 +1,8 @@
+---
+title: "Authentication"
+description: "Details on standardized login and logout processes, including secure handling of user credentials and session tokens."
+---
+
 # Authentication
 
 ## Overview

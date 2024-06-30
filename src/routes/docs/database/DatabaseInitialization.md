@@ -1,3 +1,8 @@
+---
+title: "Database Initialization and Management"
+description: "This document describes the initialization and management process for database connections in SveltyCMS."
+---
+
 # Database Initialization and Management
 
 ## Introduction

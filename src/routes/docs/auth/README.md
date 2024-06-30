@@ -1,3 +1,9 @@
+---
+title: "Authentication and Authorization"
+description: "Detailed documentation for the authentication and authorization systems implemented in our project."
+icon: "mdi:lock-check"
+---
+
 # Authentication and Authorization Documentation
 
 ## Overview

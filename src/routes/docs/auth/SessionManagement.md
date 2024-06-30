@@ -1,3 +1,8 @@
+---
+title: "Session Management"
+description: "Covers how sessions are managed within the system, including their creation, expiration, and deletion, to ensure secure user interactions."
+---
+
 # Session Management
 
 ## Overview

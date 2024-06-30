@@ -1,3 +1,8 @@
+---
+title: "Permission Management"
+description: "Comprehensive management of permissions assignable to roles, including how permissions are defined, modified, and deleted."
+---
+
 # Permission Management
 
 ## Overview

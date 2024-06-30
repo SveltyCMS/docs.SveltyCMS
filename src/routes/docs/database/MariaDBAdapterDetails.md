@@ -1,3 +1,8 @@
+---
+title: "MariaDB Adapter Details"
+description: "The MariaDBAdapter class implements the DatabaseAdapter interface specifically for interacting with a MariaDB database."
+---
+
 # MariaDB Adapter Details for SveltyCMS
 
 ## Overview

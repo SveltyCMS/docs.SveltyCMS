@@ -1,6 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { getDocs, searchDocs } from '$lib/docsIndex';
 
+// Fetch all docs
 export const GET: RequestHandler = async ({ url }) => {
   const searchQuery = url.searchParams.get('search') || '';
   const docs = searchQuery ? searchDocs(searchQuery) : getDocs();
