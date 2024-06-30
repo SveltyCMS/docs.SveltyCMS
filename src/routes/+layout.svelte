@@ -41,6 +41,8 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
+	import { toggleDarkMode } from '$lib/darkMode';
+
 	onMount(() => {
 		const savedTheme = localStorage.getItem('theme');
 		if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -91,11 +93,15 @@
 		<LeftSideBar />
 
 		<!-- Page Route Content -->
-		<div class={`transition-transform duration-300 ease-in-out ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
+		<div class={`overflow--yauto transition-transform duration-300 ease-in-out ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
 			<slot />
 		</div>
 
-		<!-- Footer -->
-		<Footer />
+		<svelte:fragment slot="footer">
+			<div class={` ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
+				<!-- Footer -->
+				<Footer />
+			</div>
+		</svelte:fragment>
 	</AppShell>
 </ParaglideJS>

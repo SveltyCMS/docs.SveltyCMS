@@ -1,30 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import PageTitle from '$lib/PageTitle.svelte';
-
-	interface Doc {
-		title: string;
-		path: string;
-		description: string;
-		children?: Doc[];
-	}
-
-	let docs: Doc[] = [];
-	let query = '';
-
-	async function fetchDocs(searchQuery: string = '') {
-		const res = await fetch(`/api/docs?search=${searchQuery}`);
-		docs = await res.json();
-		console.log('Fetched Docs:', docs);
-	}
-
-	function search() {
-		fetchDocs(query);
-	}
-
-	onMount(() => {
-		fetchDocs();
-	});
 </script>
 
 <PageTitle name="SveltyCMS Documentation" icon="mdi:book-open-variant" iconColor="text-terry-500 dark:text-primary-500" iconSize="36" />
