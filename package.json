@@ -89,6 +89,7 @@
 	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "1.6.5",
+		"@types/markdown-it": "^14.1.1",
 		"gray-matter": "^4.0.3",
 		"highlight.js": "11.9.0",
 		"iconify-icon": "^2.1.0",

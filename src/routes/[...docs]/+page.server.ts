@@ -2,26 +2,43 @@ import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import path from 'path';
 import fs from 'fs/promises';
+import MarkdownIt from 'markdown-it';
+import matter from 'gray-matter';
+
+const md = new MarkdownIt();
 
 export const load: PageServerLoad = async ({ params }) => {
-    // Ensure params.docs is handled correctly as an array or string
     const docsPathArray = Array.isArray(params.docs) ? params.docs : [params.docs];
     let docsPath = docsPathArray.join('/');
 
-    // If no specific file is provided, default to README.md
-    if (!docsPathArray[docsPathArray.length - 1].endsWith('.md')) {
-        docsPath = path.join(docsPath, 'README');
+    if (docsPath === '') {
+        docsPath = 'docs/getting-started/README';
+    } else if (!docsPath.endsWith('.md')) {
+        // Check if the path exists as a directory
+        const dirPath = path.resolve('src/routes', docsPath);
+        try {
+            await fs.access(dirPath);
+            // If it's a directory, append README.md
+            docsPath = path.join(docsPath, 'README');
+        } catch {
+            // If it's not a directory, assume it's a file without .md extension
+            docsPath = `${docsPath}`;
+        }
     }
 
-    // Resolve the full path to the markdown file
-    const filePath = path.resolve('src/routes/docs', `${docsPath}.md`);
+    const filePath = path.resolve('src/routes', `${docsPath}.md`);
+
+    console.log(`Requested docs path: ${docsPath}`);
+    console.log(`Full resolved file path: ${filePath}`);
 
     try {
-        // Log the resolved file path for debugging
-        console.log(`Loading markdown file from: ${filePath}`);
-        const text = await fs.readFile(filePath, 'utf-8');
+        const fileContent = await fs.readFile(filePath, 'utf-8');
+        const { data: frontMatter, content } = matter(fileContent);
+        const renderedContent = md.render(content);
+        
         return {
-            content: text,
+            content: renderedContent,
+            frontMatter,
             path: docsPath
         };
     } catch (err) {

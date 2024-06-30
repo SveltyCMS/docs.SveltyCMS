@@ -1,23 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
-	import MarkdownIt from 'markdown-it';
-
-	export let data: { content: string; path: string };
-
-	const htmlContent = writable<string>('');
-	const md = new MarkdownIt();
-
-	onMount(() => {
-		htmlContent.set(md.render(data.content));
-	});
+	export let data: { content: string; frontMatter: { title: string; description: string; icon: string }; path: string };
 </script>
 
 <svelte:head>
-	<title>{data.path}</title>
-	<meta name="description" content="Documentation for {data.path}" />
+	<title>{data.frontMatter.title}</title>
+	<meta name="description" content={data.frontMatter.description} />
 </svelte:head>
 
-<div class="markdown">
-	{@html $htmlContent}
-</div>
+<article class="p-2 prose prose-slate lg:prose-lg">
+	<h1>{data.frontMatter.title}</h1>
+	<p class="lead">{data.frontMatter.description}</p>
+	{@html data.content}
+</article>
