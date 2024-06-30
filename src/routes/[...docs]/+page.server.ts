@@ -14,28 +14,25 @@ export const load: PageServerLoad = async ({ params }) => {
     if (docsPath === '') {
         docsPath = 'docs/getting-started/README';
     } else if (!docsPath.endsWith('.md')) {
-        // Check if the path exists as a directory
         const dirPath = path.resolve('src/routes', docsPath);
         try {
             await fs.access(dirPath);
-            // If it's a directory, append README.md
             docsPath = path.join(docsPath, 'README');
         } catch {
-            // If it's not a directory, assume it's a file without .md extension
             docsPath = `${docsPath}`;
         }
     }
 
     const filePath = path.resolve('src/routes', `${docsPath}.md`);
 
-    console.log(`Requested docs path: ${docsPath}`);
-    console.log(`Full resolved file path: ${filePath}`);
-
     try {
         const fileContent = await fs.readFile(filePath, 'utf-8');
         const { data: frontMatter, content } = matter(fileContent);
-        const renderedContent = md.render(content);
+        let renderedContent = md.render(content);
         
+        // Remove the first <h1> tag from the rendered content
+        renderedContent = renderedContent.replace(/<h1>.*?<\/h1>/, '');
+
         return {
             content: renderedContent,
             frontMatter,

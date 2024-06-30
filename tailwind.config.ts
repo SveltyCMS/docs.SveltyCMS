@@ -13,7 +13,7 @@ import { SveltyCMSTheme } from './SveltyCMSTheme';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	// Opt for dark mode to be handled via the class method
-	darkMode: 'media',
+	darkMode: 'class',
 
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
