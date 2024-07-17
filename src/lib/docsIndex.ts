@@ -64,7 +64,11 @@ async function loadDocs() {
   docsCache = Object.values(tempDocs).filter(doc => !doc.path.includes('/'));
   docsCache.forEach(doc => {
     if (doc.children) {
-      doc.children.sort((a, b) => a.title.localeCompare(b.title));
+      doc.children.sort((a, b) => {
+        if (a.title.startsWith('01-')) return -1;
+        if (b.title.startsWith('01-')) return 1;
+        return a.title.localeCompare(b.title);
+      });
     }
   });
 
@@ -96,12 +100,13 @@ export function searchDocs(query: string): Doc[] {
   const searchLower = query.toLowerCase();
   // console.log(`Searching docs with query: ${query}`);
 
-  function filterDocs(docs: Doc[]): Doc[] {
+  function filterDocs(docs: Doc[], parentTitle = ''): Doc[] {
     return docs
       .map(doc => {
-        const children = doc.children ? filterDocs(doc.children) : [];
+        const fullTitle = `${parentTitle} ${doc.title}`.trim().toLowerCase();
+        const children = doc.children ? filterDocs(doc.children, fullTitle) : [];
         const match =
-          doc.title.toLowerCase().includes(searchLower) ||
+          fullTitle.includes(searchLower) ||
           doc.content.toLowerCase().includes(searchLower) ||
           children.length > 0;
 
