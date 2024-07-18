@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ params }) => {
   // Remove 'docs/' from the beginning of the path if it exists
   docsPath = docsPath.replace(/^docs\//, '');
 
-  // Handle empty path or top-level sections
+  // Handle empty path, 'getting-started', or other top-level sections
   if (docsPath === '' || !docsPath.includes('/')) {
     const dirPath = path.resolve('src/routes/docs', docsPath);
     try {
@@ -48,6 +48,25 @@ export const load: PageServerLoad = async ({ params }) => {
   console.log('File path:', filePath);  // Debug log
 
   try {
+    const stat = await fs.stat(filePath);
+    if (stat.isDirectory()) {
+      // If it's a directory, look for a default file
+      const files = await fs.readdir(filePath);
+      const defaultFile = files.find(file => file.toLowerCase().startsWith('01-')) || files.find(file => file.match(/^\d+-/));
+      if (defaultFile) {
+        filePath = path.join(filePath, defaultFile);
+      } else {
+        throw error(404, `No default file found in ${filePath}`);
+      }
+    }
+  } catch (err) {
+    // If the file doesn't exist, try adding .md extension
+    if (!filePath.endsWith('.md')) {
+      filePath += '.md';
+    }
+  }
+
+  try {
     const fileContent = await fs.readFile(filePath, 'utf-8');
     const { data: frontMatter, content } = matter(fileContent);
     let renderedContent = md.render(content);
@@ -57,9 +76,14 @@ export const load: PageServerLoad = async ({ params }) => {
 
     // Resolve relative links
     const basePath = path.dirname(docsPath);
-    renderedContent = renderedContent.replace(/\[([^\]]+)\]\(\.\/([^)]+)\)/g, (match, text, link) => {
-      const resolvedLink = path.join(basePath, link).replace(/\\/g, '/');
-      return `[${text}](/docs/${resolvedLink})`;
+    renderedContent = renderedContent.replace(/(\.\/[^\s)]+)/g, (match) => {
+      return path.join(basePath, match).replace(/\\/g, '/');
+    });
+
+    // Fix relative links to use the full path
+    renderedContent = renderedContent.replace(/href="(\.\/[^\"]+)"/g, (match, p1) => {
+      const fullPath = path.join('/docs', basePath, p1).replace(/\\/g, '/');
+      return `href="${fullPath}"`;
     });
 
     return {
