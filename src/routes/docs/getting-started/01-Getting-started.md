@@ -10,10 +10,10 @@ Get ready to unlock the power of a modern, feature-rich, and user-friendly Headl
 
 ## Getting Started Table of Contents
 
-1. [Prerequisites](./prerequisites.md) - Ensure you have the necessary tools before diving in.
-2. [Installation](./installation.md) - Follow these steps to install SveltyCMS quickly.
-3. [Configuration](./configuration.md) - Set up environment variables and other vital settings for smooth operation.
-4. [Running SveltyCMS](./running.md) - Learn how to run SveltyCMS in both development and production environments.
-5. [Troubleshooting](./troubleshooting.md) - Find solutions to common issues you might encounter.
+1. [Prerequisites](./02-Prerequisites.md) - Ensure you have the necessary tools before diving in.
+2. [Installation](./03-Installation.md) - Follow these steps to install SveltyCMS quickly.
+3. [Configuration](./04-Configuration.md) - Set up environment variables and other vital settings for smooth operation.
+4. [Running SveltyCMS](./05-Running.md) - Learn how to run SveltyCMS in both development and production environments.
+5. [Troubleshooting](./06-Troubleshooting.md) - Find solutions to common issues you might encounter.
 
 Let's embark on your SveltyCMS journey!

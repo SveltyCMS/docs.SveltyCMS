@@ -16,8 +16,6 @@ interface Doc {
 let docsCache: Doc[] = [];
 
 async function loadDocs() {
-  //console.log("Loading documentation files...");
-
   const modules = import.meta.glob('../routes/docs/**/*.md', { eager: true, query: '?raw', import: 'default' });
 
   const tempDocs: { [key: string]: Doc } = {};
@@ -38,9 +36,10 @@ async function loadDocs() {
       title: data.title || segments[segments.length - 1],
       icon: data.icon || '',
       description: data.description || '',
+      children: []
     };
 
-    if (segments.length === 2 && segments[1].toLowerCase() === 'readme') {
+    if (segments.length === 2 && segments[1].toLowerCase().startsWith('01-')) {
       const parentPath = segments[0];
       tempDocs[parentPath] = {
         ...doc,
@@ -54,8 +53,16 @@ async function loadDocs() {
 
       if (segments.length > 1) {
         const parentPath = segments.slice(0, -1).join('/');
-        tempDocs[parentPath] = tempDocs[parentPath] || { title: parentPath, path: parentPath, children: [] };
-        tempDocs[parentPath].children = tempDocs[parentPath].children || [];
+        if (!tempDocs[parentPath]) {
+          tempDocs[parentPath] = {
+            title: parentPath,
+            path: parentPath,
+            icon: '',
+            description: '',
+            content: '',
+            children: []
+          } as Doc;
+        }
         tempDocs[parentPath].children!.push(doc);
       }
     }
@@ -65,9 +72,11 @@ async function loadDocs() {
   docsCache.forEach(doc => {
     if (doc.children) {
       doc.children.sort((a, b) => {
-        if (a.title.startsWith('01-')) return -1;
-        if (b.title.startsWith('01-')) return 1;
-        return a.title.localeCompare(b.title);
+        const aTitleMatch = a.title.match(/^\d+/);
+        const bTitleMatch = b.title.match(/^\d+/);
+        const aNum = aTitleMatch ? parseInt(aTitleMatch[0]) : 0;
+        const bNum = bTitleMatch ? parseInt(bTitleMatch[0]) : 0;
+        return aNum - bNum;
       });
     }
   });
@@ -78,9 +87,6 @@ async function loadDocs() {
     if (b.path === 'getting-started') return 1;
     return a.title.localeCompare(b.title);
   });
-
-  // console.log("Finished loading documentation files.");
-  // console.log("docsCache:", JSON.stringify(docsCache, null, 2));
 }
 
 function initDocs() {
@@ -92,13 +98,11 @@ function initDocs() {
 initDocs();
 
 export function getDocs(): Doc[] {
-  // console.log("Fetching docs from cache:", JSON.stringify(docsCache, null, 2));
   return docsCache;
 }
 
 export function searchDocs(query: string): Doc[] {
   const searchLower = query.toLowerCase();
-  // console.log(`Searching docs with query: ${query}`);
 
   function filterDocs(docs: Doc[], parentTitle = ''): Doc[] {
     return docs
@@ -115,7 +119,5 @@ export function searchDocs(query: string): Doc[] {
       .filter(Boolean) as Doc[];
   }
 
-  const results = filterDocs(docsCache);
-  // console.log("Search results:", JSON.stringify(results, null, 2));
-  return results;
+  return filterDocs(docsCache);
 }
