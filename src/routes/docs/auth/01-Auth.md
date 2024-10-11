@@ -2,6 +2,7 @@
 title: "Authentication and Authorization"
 description: "Detailed documentation for the authentication and authorization systems implemented in our project."
 icon: "mdi:lock-check"
+published: true
 ---
 
 # Authentication and Authorization Documentation
@@ -9,6 +10,7 @@ icon: "mdi:lock-check"
 ## Overview
 
 This directory contains detailed documentation for the authentication and authorization systems implemented in our project. Each section below links to more detailed guides on various aspects of the system.
+
 
 ### Contents
 

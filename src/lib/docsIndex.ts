@@ -14,8 +14,11 @@ interface Doc {
 }
 
 let docsCache: Doc[] = [];
+let docsLoaded = false;
+let loadingPromise: Promise<void> | null = null;
 
 async function loadDocs() {
+  console.log('Starting to load docs...');
   const modules = import.meta.glob('../routes/docs/**/*.md', { eager: true, query: '?raw', import: 'default' });
 
   const tempDocs: { [key: string]: Doc } = {};
@@ -69,6 +72,8 @@ async function loadDocs() {
   }
 
   docsCache = Object.values(tempDocs).filter(doc => !doc.path.includes('/'));
+  console.log(`Loaded ${docsCache.length} top-level docs`);
+
   docsCache.forEach(doc => {
     if (doc.children) {
       doc.children.sort((a, b) => {
@@ -87,21 +92,37 @@ async function loadDocs() {
     if (b.path === 'getting-started') return 1;
     return a.title.localeCompare(b.title);
   });
+
+  docsLoaded = true;
+  console.log('Docs loading completed');
 }
 
 function initDocs() {
-  if (docsCache.length === 0) {
-    loadDocs().catch(err => console.error("Failed to load docs:", err));
+  if (!loadingPromise) {
+    console.log('Initializing docs loading...');
+    loadingPromise = loadDocs().catch(err => {
+      console.error("Failed to load docs:", err);
+      loadingPromise = null;
+    });
   }
+  return loadingPromise;
 }
 
-initDocs();
-
-export function getDocs(): Doc[] {
+export async function getDocs(): Promise<Doc[]> {
+  console.log('getDocs called, docsLoaded:', docsLoaded);
+  if (!docsLoaded) {
+    await initDocs();
+  }
+  console.log(`Returning ${docsCache.length} docs`);
   return docsCache;
 }
 
-export function searchDocs(query: string): Doc[] {
+export async function searchDocs(query: string): Promise<Doc[]> {
+  console.log('searchDocs called, query:', query);
+  if (!docsLoaded) {
+    await initDocs();
+  }
+
   const searchLower = query.toLowerCase();
 
   function filterDocs(docs: Doc[], parentTitle = ''): Doc[] {
@@ -119,5 +140,7 @@ export function searchDocs(query: string): Doc[] {
       .filter(Boolean) as Doc[];
   }
 
-  return filterDocs(docsCache);
+  const results = filterDocs(docsCache);
+  console.log(`Search returned ${results.length} results`);
+  return results;
 }

@@ -41,15 +41,10 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	import { toggleDarkMode } from '$lib/darkMode';
+	import { initializeDarkMode } from '$lib/darkMode';
 
 	onMount(() => {
-		const savedTheme = localStorage.getItem('theme');
-		if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
+		initializeDarkMode();
 	});
 
 	// Default SEO for all pages
@@ -84,7 +79,7 @@
 
 <ParaglideJS {i18n}>
 	<!-- App Shell -->
-	<AppShell>
+	<AppShell class="w-fullbg-white dark:bg-surface-900">
 		<svelte:fragment slot="header">
 			<HeaderBar />
 		</svelte:fragment>
@@ -93,12 +88,14 @@
 		<LeftSideBar />
 
 		<!-- Page Route Content -->
-		<div class={`overflow--yauto transition-transform duration-300 ease-in-out ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
+		<div
+			class={`overflow-y-auto transition-transform duration-300 ease-in-out bg-white dark:bg-surface-900 ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}
+		>
 			<slot />
 		</div>
 
 		<svelte:fragment slot="footer">
-			<div class={` ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
+			<div class={`bg-white dark:bg-surface-900 ${leftSidebarState !== 'hidden' ? 'ml-64' : 'ml-0'}`}>
 				<!-- Footer -->
 				<Footer />
 			</div>
