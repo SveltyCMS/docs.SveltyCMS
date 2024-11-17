@@ -17,12 +17,12 @@ export const load: PageServerLoad = async ({ params }) => {
 
   console.log('Docs path:', docsPath);  // Debug log
 
-  // Remove 'docs/' from the beginning of the path if it exists
-  docsPath = docsPath.replace(/^docs\//, '');
+  // Remove 'docs/' or 'Docs/' from the beginning of the path if it exists
+  docsPath = docsPath.replace(/^(docs|Docs)\//, '');
 
   // Handle empty path, 'getting-started', or other top-level sections
   if (docsPath === '' || !docsPath.includes('/')) {
-    const dirPath = path.resolve('src/routes/docs', docsPath);
+    const dirPath = path.resolve('src/routes/Docs', docsPath);
     try {
       const files = await fs.readdir(dirPath);
       const sortedFiles = files
@@ -44,7 +44,7 @@ export const load: PageServerLoad = async ({ params }) => {
   }
 
   // Construct the file path
-  let filePath = path.resolve('src/routes/docs', `${docsPath}.md`);
+  let filePath = path.resolve('src/routes/Docs', `${docsPath}.md`);
   console.log('File path:', filePath);  // Debug log
 
   try {
@@ -69,9 +69,18 @@ export const load: PageServerLoad = async ({ params }) => {
   try {
     const fileContent = await fs.readFile(filePath, 'utf-8');
     const { data: frontMatter, content } = matter(fileContent);
+
+    // Ensure frontMatter has required fields
+    const processedFrontMatter = {
+      title: frontMatter?.title || '',
+      description: frontMatter?.description || '',
+      icon: frontMatter?.icon || 'mdi:file-document',
+      ...frontMatter
+    };
+
     let renderedContent = md.render(content);
 
-    // Remove the first <h1> tag from the rendered content
+    // Remove the first <h1> tag from the rendered content since we display it separately
     renderedContent = renderedContent.replace(/<h1[^>]*>.*?<\/h1>/, '');
 
     // Resolve relative links
@@ -82,13 +91,13 @@ export const load: PageServerLoad = async ({ params }) => {
 
     // Fix relative links to use the full path
     renderedContent = renderedContent.replace(/href="(\.\/[^\"]+)"/g, (match, p1) => {
-      const fullPath = path.join('/docs', basePath, p1).replace(/\\/g, '/');
+      const fullPath = path.join('/Docs', basePath, p1).replace(/\\/g, '/');
       return `href="${fullPath}"`;
     });
 
     return {
       content: renderedContent,
-      frontMatter,
+      frontMatter: processedFrontMatter,
       path: docsPath
     };
   } catch (err) {

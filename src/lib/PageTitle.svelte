@@ -1,3 +1,9 @@
+<!--
+@file src/lib/PageTitle.svelte
+@component
+**PageTitle - displays a page title with an optional icon**
+-->
+
 <script lang="ts">
 	interface PageTitleProps {
 		name: string;

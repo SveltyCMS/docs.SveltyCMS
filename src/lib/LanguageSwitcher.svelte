@@ -1,3 +1,9 @@
+<!--
+@file src/lib/LanguageSwitcher.svelte
+@component
+**LanguageSwitcher - displays a language switcher component**
+-->
+
 <script>
 	import { availableLanguageTags, languageTag } from '$paraglide/runtime';
 	import { i18n } from '$lib/i18n';

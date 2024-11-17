@@ -4,104 +4,107 @@ import type { Input } from 'gray-matter';
 
 const md = new MarkdownIt();
 
-interface Doc {
+export interface Doc {
   title: string;
   path: string;
   icon: string;
   description: string;
   content: string;
-  children?: Doc[];
+  published?: boolean;
+  type?: 'user' | 'dev';
+  section?: string;
+  order?: number;
 }
 
 let docsCache: Doc[] = [];
 let docsLoaded = false;
 let loadingPromise: Promise<void> | null = null;
 
+function extractOrder(path: string): number {
+  const match = path.match(/(\d+)[_-]/);
+  return match ? parseInt(match[1]) : 999;
+}
+
+function cleanTitle(title: string): string {
+  return title
+    .replace(/^\d+[_-]/, '') // Remove leading numbers and underscore/hyphen
+    .replace(/_/g, ' ') // Replace underscores with spaces
+    .replace(/\.md$/, ''); // Remove .md extension
+}
+
+function getSection(path: string): string {
+  const parts = path.split('/');
+  // For dev docs, get the parent directory name (e.g., "01_Getting_Started")
+  if (parts.includes('Developer_Guide') && parts.length > 2) {
+    const sectionPath = parts[parts.length - 2];
+    return cleanTitle(sectionPath);
+  }
+  // For user docs, get the immediate parent directory
+  if (parts.length > 1) {
+    return cleanTitle(parts[parts.length - 2]);
+  }
+  return '';
+}
+
 async function loadDocs() {
   console.log('Starting to load docs...');
-  const modules = import.meta.glob('../routes/docs/**/*.md', { eager: true, query: '?raw', import: 'default' });
+  const modules = import.meta.glob('../routes/Docs/**/*.md', { eager: true, query: '?raw', import: 'default' });
 
-  const tempDocs: { [key: string]: Doc } = {};
+  const tempDocs: Doc[] = [];
 
   for (const path in modules) {
-    console.log(`Processing file: ${path}`);
     const rawContent = modules[path] as string;
     const { data, content: markdownContent } = matter(rawContent as Input);
     const htmlContent = md.render(markdownContent);
 
-    const relativePath = path.replace('../routes/docs/', '').replace(/\.md$/, '');
-    const segments = relativePath.split('/');
+    const relativePath = path.replace('../routes/Docs/', '').replace(/\.md$/, '');
+    
+    // Skip README files from the sidebar
+    if (relativePath.toLowerCase() === 'readme.md' || relativePath.toLowerCase().endsWith('/readme.md')) {
+      continue;
+    }
+
+    // Get the section name from the path
+    const section = getSection(relativePath);
+    const order = extractOrder(relativePath);
 
     const doc: Doc = {
       ...data,
       content: htmlContent,
       path: relativePath,
-      title: data.title || segments[segments.length - 1],
-      icon: data.icon || '',
+      title: data.title || cleanTitle(relativePath.split('/').pop() || ''),
+      icon: data.icon || 'mdi:file-document',
       description: data.description || '',
-      children: []
+      published: data.published !== false,
+      type: data.type || 'user',
+      section,
+      order
     };
 
-    if (segments.length === 2 && segments[1].toLowerCase().startsWith('01-')) {
-      const parentPath = segments[0];
-      tempDocs[parentPath] = {
-        ...doc,
-        path: parentPath,
-        title: doc.title,
-        description: doc.description,
-        children: tempDocs[parentPath]?.children || [],
-      };
-    } else {
-      tempDocs[relativePath] = doc;
-
-      if (segments.length > 1) {
-        const parentPath = segments.slice(0, -1).join('/');
-        if (!tempDocs[parentPath]) {
-          tempDocs[parentPath] = {
-            title: parentPath,
-            path: parentPath,
-            icon: '',
-            description: '',
-            content: '',
-            children: []
-          } as Doc;
-        }
-        tempDocs[parentPath].children!.push(doc);
-      }
-    }
+    tempDocs.push(doc);
   }
 
-  docsCache = Object.values(tempDocs).filter(doc => !doc.path.includes('/'));
-  console.log(`Loaded ${docsCache.length} top-level docs`);
-
-  docsCache.forEach(doc => {
-    if (doc.children) {
-      doc.children.sort((a, b) => {
-        const aTitleMatch = a.title.match(/^\d+/);
-        const bTitleMatch = b.title.match(/^\d+/);
-        const aNum = aTitleMatch ? parseInt(aTitleMatch[0]) : 0;
-        const bNum = bTitleMatch ? parseInt(bTitleMatch[0]) : 0;
-        return aNum - bNum;
-      });
+  // Sort docs by section and order
+  docsCache = tempDocs.sort((a, b) => {
+    if (a.section !== b.section) {
+      // Sort by order first for sections
+      const aOrder = extractOrder(a.section);
+      const bOrder = extractOrder(b.section);
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+      return a.section.localeCompare(b.section);
     }
-  });
-
-  // Ensure 'getting-started' is first
-  docsCache.sort((a, b) => {
-    if (a.path === 'getting-started') return -1;
-    if (b.path === 'getting-started') return 1;
-    return a.title.localeCompare(b.title);
+    return (a.order || 999) - (b.order || 999);
   });
 
   docsLoaded = true;
-  console.log('Docs loading completed');
 }
 
-function initDocs() {
-  if (!loadingPromise) {
-    console.log('Initializing docs loading...');
-    loadingPromise = loadDocs().catch(err => {
-      console.error("Failed to load docs:", err);
+async function initDocs() {
+  if (!docsLoaded && !loadingPromise) {
+    loadingPromise = loadDocs().catch(error => {
+      console.error('Error loading docs:', error);
       loadingPromise = null;
     });
   }
@@ -109,38 +112,37 @@ function initDocs() {
 }
 
 export async function getDocs(): Promise<Doc[]> {
-  console.log('getDocs called, docsLoaded:', docsLoaded);
-  if (!docsLoaded) {
-    await initDocs();
-  }
-  console.log(`Returning ${docsCache.length} docs`);
+  await initDocs();
   return docsCache;
 }
 
-export async function searchDocs(query: string): Promise<Doc[]> {
-  console.log('searchDocs called, query:', query);
-  if (!docsLoaded) {
-    await initDocs();
-  }
-
-  const searchLower = query.toLowerCase();
-
-  function filterDocs(docs: Doc[], parentTitle = ''): Doc[] {
-    return docs
-      .map(doc => {
-        const fullTitle = `${parentTitle} ${doc.title}`.trim().toLowerCase();
-        const children = doc.children ? filterDocs(doc.children, fullTitle) : [];
-        const match =
-          fullTitle.includes(searchLower) ||
-          doc.content.toLowerCase().includes(searchLower) ||
-          children.length > 0;
-
-        return match ? { ...doc, children } : null;
-      })
-      .filter(Boolean) as Doc[];
-  }
-
-  const results = filterDocs(docsCache);
-  console.log(`Search returned ${results.length} results`);
-  return results;
+export async function getDocsByType(type: 'user' | 'dev'): Promise<Doc[]> {
+  await initDocs();
+  return docsCache.filter(doc => doc.type === type);
 }
+
+export async function searchDocs(query: string, type?: 'user' | 'dev'): Promise<Doc[]> {
+  await initDocs();
+  
+  if (!query.trim()) {
+    return type ? await getDocsByType(type) : docsCache;
+  }
+
+  const searchTerms = query.toLowerCase().split(' ');
+  
+  function matchesSearch(doc: Doc): boolean {
+    const text = `${doc.title} ${doc.description} ${doc.section}`.toLowerCase();
+    return searchTerms.every(term => text.includes(term));
+  }
+  
+  const filteredDocs = docsCache.filter(doc => {
+    if (type && doc.type !== type) {
+      return false;
+    }
+    return matchesSearch(doc);
+  });
+
+  return filteredDocs;
+}
+
+initDocs();

@@ -1,3 +1,9 @@
+<!--
+@file src/lib/SveltyCMS_Logo.svelte
+@component
+**SveltyCMS_Logo - displays the SveltyCMS_Logo component**
+-->
+
 <script lang="ts">
 	export let fill = 'currentColor';
 	export let className = '';

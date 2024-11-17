@@ -1,33 +1,16 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 import { getDocs, searchDocs } from '$lib/docsIndex';
 
 export const GET: RequestHandler = async ({ url }) => {
+  const searchQuery = url.searchParams.get('search') || '';
+  const type = url.searchParams.get('type') as 'user' | 'dev' | null;
+
   try {
-    console.log('API endpoint called');
-    const searchQuery = url.searchParams.get('search') || '';
-    console.log('Search query:', searchQuery);
-
-    let docs;
-    if (searchQuery) {
-      docs = await searchDocs(searchQuery);
-    } else {
-      docs = await getDocs();
-    }
-
-    console.log(`Returning ${docs.length} docs from API`);
-
-    return new Response(JSON.stringify(docs), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    const docs = await searchDocs(searchQuery, type || undefined);
+    return json(docs);
   } catch (error) {
-    console.error('Error in API endpoint:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    console.error('Error fetching docs:', error);
+    return new Response('Internal Server Error', { status: 500 });
   }
 };

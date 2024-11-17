@@ -1,3 +1,9 @@
+<!--
+@file src/lib/SearchResults.svelte
+@component
+**SearchResults - displays search results fetched from the API**
+-->
+
 <script lang="ts">
 	import { searchQuery } from '@src/lib/store/stores';
 	import { writable } from 'svelte/store';

@@ -1,7 +1,9 @@
 <!-- 
 @file AppBar component with navigation including menu toggle, dark mode, and marketplace link.
-@description This component renders the header with a logo, dark mode toggle, marketplace link, 
-GitHub link, and a language switcher. It includes a responsive sidebar menu for mobile screens.
+@component
+**HeaderBar - displays a navigation bar with menu toggle, dark mode, and marketplace link**
+This component renders the header with a logo, dark mode toggle, marketplace link, 
+GitHub link, and a language switcher. It includes a responsive sidebar menu for mobile screens
 -->
 
 <script lang="ts">

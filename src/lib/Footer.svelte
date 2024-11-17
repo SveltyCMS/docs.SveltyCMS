@@ -1,3 +1,9 @@
+<!--
+@file src/lib/Footer.svelte
+@component
+**Footer - displays a list of documentation items fetched from the API**
+-->
+
 <script lang="ts">
 	// Paraglide JS
 	import * as m from '$lib/paraglide/messages.js';
